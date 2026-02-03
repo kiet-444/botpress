@@ -7,7 +7,12 @@ export class ChatController {
 
   @Post('message')
   async receive(@Body() body: any) {
-    const { userId, message, conversation } = body
+
+    const { userId, message } = body
+
+    if (!userId || !message) {
+      throw new Error('Invalid request: missing userId or message')
+    }
 
     await this.chatService.saveMessage(userId, message, 'user')
 
@@ -15,9 +20,6 @@ export class ChatController {
 
     await this.chatService.saveMessage(userId, botReply, 'bot')
 
-    return {
-      reply: botReply,
-      conversation,
-    }
+    return { reply: botReply }
   }
 }
