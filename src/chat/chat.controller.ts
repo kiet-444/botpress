@@ -7,7 +7,7 @@ export class ChatController {
 
   @Post('message')
   async receive(@Body() body: any) {
-    const { userId, message } = body
+    const { userId, message, conversation } = body
 
     await this.chatService.saveMessage(userId, message, 'user')
 
@@ -17,6 +17,7 @@ export class ChatController {
 
     return {
       reply: botReply,
+      conversation,
     }
   }
 }
