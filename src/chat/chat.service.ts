@@ -28,4 +28,12 @@ export class ChatService {
       },
     })
   }
+
+  async getHistory(userId: string, limit = 20) {
+    return this.prisma.message.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+    })
+  }
 }
